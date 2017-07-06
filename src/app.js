@@ -1,15 +1,13 @@
 import './style.scss'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import App from './components/App.jsx'
 
 if(module.hot) {
   module.hot.accept()
 }
 
 ReactDOM.render(
-  <h1>Hello, world!</h1>,
+  <App />,
   document.getElementById('root')
 )
-
-// const root = document.querySelector('#root')
-// root.innerHTML = `<p>Hello webpack.</p>`

@@ -1,6 +1,13 @@
 const webpack = require('webpack')
 const path = require('path')
 
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+  template: './index.html',
+  filename: 'index.html',
+  inject: 'body'
+})
+
 const config = {
   context: path.resolve(__dirname, 'src'),
   entry: './app.js',
@@ -30,9 +37,23 @@ const config = {
             ]
           }
         }]
+      },
+      {
+        test: /\.jsx$/,
+        exclude: /node_modules/,
+        include: path.resolve(__dirname, 'src'),
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['es2015', { modules: false }]
+            ]
+          }
+        }]
       }
     ]
-  }
+  },
+  plugins: [HtmlWebpackPluginConfig]
 }
 
 module.exports = config
