@@ -4,7 +4,7 @@
   "description": "Alex's Free Code Camp Voting App",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --watch",
+    "start": "webpack-dev-server --inline --hot",
     "build": "webpack -p"
   },
   "repository": {
