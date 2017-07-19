@@ -1,16 +1,23 @@
 const webpack = require('webpack')
 const path = require('path')
 const bootstrapEntryPoints = require('./webpack.bootstrap.config')
-
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const PurifyCSSPlugin = require('purifycss-webpack')
 
 const isProd = process.env.NODE_ENV === 'production'
-const cssDev = ['style-loader', 'css-loader', 'sass-loader']
+
+const cssDev = [
+  'style-loader',
+  'css-loader?sourceMap',
+  'sass-loader',
+]
+
 const cssProd = ExtractTextPlugin.extract({
   fallback: 'style-loader',
-  loader: ['css-loader', 'sass-loader'],
+  use: [
+    'css-loader',
+    'sass-loader',
+  ],
   publicPath: '/dist'
 })
 
@@ -18,9 +25,8 @@ const cssConfig = isProd ? cssProd : cssDev
 const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev
 
 const config = {
-  context: path.resolve(__dirname, 'src'),
   entry: {
-    app: './app.js',
+    app: './src/app.js',
     bootstrap: bootstrapConfig
   },
   output: {
@@ -64,9 +70,15 @@ const config = {
       { test: /\.(ttf|eot)$/, loader: 'file-loader' }
     ]
   },
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    stats: 'errors-only',
+    open: true
+  },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './src/index.html',
       filename: 'index.html',
       inject: 'body'
     }),
